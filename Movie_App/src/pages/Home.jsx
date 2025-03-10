@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard";
+import "../css/Home.css"
 
 
 function Home () {
@@ -38,7 +39,9 @@ function Home () {
                 // <MovieCard movie={movie} key={movie.id}/>)}
 
             // displaying only those movies whose search query are matching
-            movie.title.toLowerCase().startsWith(searchQuery) && (
+            // movie.title.toLowerCase().startsWith(searchQuery) && 
+            // we comment this beacuse we use API to search movies
+            (
                 <MovieCard movie={movie} key={movie.id}/>
             )
         )}
