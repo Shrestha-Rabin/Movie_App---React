@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Search from './components/Search'
 import Spinner from './components/Spinner'
 import MovieCard from './components/MovieCard';
+import { useDebounce } from 'react-use';
 
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
@@ -25,6 +26,12 @@ function App() {
   const [movieList, setMovieList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [debounceSearchTerm, setdebounceSearchTerm] = useState("");
+
+  // this hook is used to pause for few second befoe searching
+  // ie. when i type sthng then it waits for 500 milliseconds to search
+  useDebounce(() => setdebounceSearchTerm(searchTerm), 500, [searchTerm]);
   
 
   const fetchMovies = async (query = '') => {
@@ -61,8 +68,8 @@ function App() {
   }
 
   useEffect(() => {
-    fetchMovies(searchTerm);
-  }, [searchTerm])
+    fetchMovies(debounceSearchTerm);
+  }, [debounceSearchTerm]);
 
   return (
     <>
@@ -71,7 +78,7 @@ function App() {
 
         <div className='wrapper'>
           <header>
-            <img src="./hero.png" alt="Hero banner" />
+            <img src="/hero.png" alt="Hero banner" />
             <h1><span className='text-gradient'>Movies</span> For You</h1>
             <Search searchTerm={searchTerm} setSearchterm={setSearchTerm} />
           </header>
